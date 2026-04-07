@@ -47,9 +47,8 @@ class _ExpensesState extends State<Expenses>{
         title: const Text('Expense Tracker'),
         actions: [
           IconButton(icon: const Icon(Icons.add), 
-          onPressed: () {
-    
-          },
+          onPressed:_openAddExpenseOverlay,
+
           //Add more here if needed
           )
         ],
@@ -58,7 +57,8 @@ class _ExpensesState extends State<Expenses>{
       children: [
         Text("CHART GOES HERE"),
         Expanded(
-          child: ExpensesList(expenses: _registeredExpenses)),
+          child: ExpensesList(
+            expenses: _registeredExpenses)),
        ],
       ),
     ); 
