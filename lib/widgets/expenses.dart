@@ -23,6 +23,11 @@ class _ExpensesState extends State<Expenses>{
       _registeredExpenses.add(expense);
     });
   }
+  void _removeExpense(Expense expense){
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+  }
 
   final List<Expense> _registeredExpenses = [
     Expense(
@@ -62,6 +67,7 @@ class _ExpensesState extends State<Expenses>{
           Text("CHART GOES HERE"),
           Expanded(
             child: ExpensesList(
+              onRemoveExpense: _removeExpense,
               expenses: _registeredExpenses,
             ),
           ),
