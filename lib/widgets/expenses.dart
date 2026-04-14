@@ -15,6 +15,7 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses>{
   void _openAddExpenseOverlay(){
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(onAddExpense: _addExpense));
   }
@@ -24,11 +25,24 @@ class _ExpensesState extends State<Expenses>{
     });
   }
   void _removeExpense(Expense expense){
-    setState(() {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
+    setState((){
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 5),
+        content: const Text("Expense Deleted!"),
+        action: SnackBarAction(
+          label: "Undo", 
+        onPressed: (){
+          setState((){
+          _registeredExpenses.insert(expenseIndex, expense);
+          });
+        },),
+      )
+    );
   }
-
   final List<Expense> _registeredExpenses = [
     Expense(
       title: 'Ginos Pizza',
@@ -50,29 +64,27 @@ class _ExpensesState extends State<Expenses>{
     ),
   ];
   @override
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text("No expenses. Click the + to add one!"),
+    );
     return Scaffold(
       appBar:AppBar(
         title: const Text("Expense Tracker"),
         actions:[
-          IconButton(
-            onPressed: _openAddExpenseOverlay,
-            icon: const Icon(Icons.add), 
+          IconButton(icon: const Icon(Icons.add),
+            onPressed: _openAddExpenseOverlay, 
           //Add more here if needed
-          ), 
+          ) 
         ],
       ),
       body: Column(
         children: [
           Text("CHART GOES HERE"),
-          Expanded(
-            child: ExpensesList(
-              onRemoveExpense: _removeExpense,
-              expenses: _registeredExpenses,
-            ),
-          ),
+          Expanded(child: mainContent),
         ],
       ),
     );
   }
+
 }

@@ -7,6 +7,7 @@ class ExpensesList extends StatelessWidget {
   required this.expenses,
   required this.onRemoveExpense});
 
+  final void Function(Expense expense) onRemoveExpense;
   final List<Expense> expenses;
   @override
   Widget build(BuildContext context) {

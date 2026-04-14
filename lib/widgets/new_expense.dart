@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat.yMd();
 
 class NewExpense extends StatefulWidget{
-  const NewExpense({super.key});
+  const NewExpense({super.key, required void Function(Expense expense) onAddExpense});
 
   State<NewExpense> createState(){
     return _NewExpenseState();
